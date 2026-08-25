@@ -6,24 +6,47 @@ A session-header utility for the DeepSeek Harness Web GUI: one button that copie
 
 ---
 
-## 使用 / Usage
+## 使用场景 / Use case
 
-### 安装 / Install
+跨会话交接时（例如在一个会话里排查问题 / 做完设计，想把它交给另一个会话用），用这个插件可以**秒拿当前会话的 id，并在目标会话里一键 recall**：
+
+1. 在来源会话（如「设计」会话）点击标题右侧的复制图标，拿到它的 `session-xxxx` id。
+2. 切到另一个会话（如「实现」会话），在输入框里 **输入 `@`，然后粘贴刚才复制的 id**。
+3. 会话引用自动补全会按 id 精确匹配到那个来源会话；选中它，harness 就会把该来源会话的只读快照以 `recall` 上下文注入当前消息，作为背景被模型读取，无需手动拼任何东西。
+
+> 也可以直接把整条 mention `@[标题](dsh-session:<id>)` 粘进输入框，效果等同 —— 只要能拿到 id，两种方式都能快速 recall。
+
+For cross-session handoff, copy the source session's id here, then in the target session type `@` and paste that id — the session-reference autocomplete matches it by id, and picking it injects the source session's read-only snapshot (`recall` context) into the current message.
+
+---
+
+## 安装 / Install
+
+**优先：从 npm 安装（推荐）**
 
 ```sh
-dsh plugin --profile web add link:/绝对路径/到/dsh-copy-session-id
+dsh plugin --profile web add @lim324/dsh-copy-session-id
 ```
 
 装完重启 `dsh web`。/ Restart `dsh web` afterwards.
 
-### 构建 / Build
+**GitHub 源码安装（需要先 build）**
+
+```sh
+git clone https://github.com/Limsanity/dsh-copy-session-id.git
+cd dsh-copy-session-id
+pnpm install && pnpm run build    # 生成 lib/ 产物
+dsh plugin --profile web add link:/绝对路径/到/dsh-copy-session-id
+```
+
+## 构建 / Build
 
 ```sh
 pnpm install
 pnpm run build   # 生成 lib/ 产物（host + client bundle + 类型）
 ```
 
-### 源码开发 / Development
+## 源码开发 / Development
 
 用 `link:` 方式安装后，源码改动需重新 `pnpm run build` 才会反映到 `lib/`。
 
