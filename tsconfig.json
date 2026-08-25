@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "target": "es2024",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "lib": ["es2024", "dom", "dom.iterable"],
+    "jsx": "react-jsx",
+    "types": ["node"],
+    "strict": true,
+    "noImplicitAny": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
+    "allowImportingTsExtensions": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "paths": {
+      "@deepseek-ai/cordis": [
+        "../github/deepseek-harness/vendor/cordis/lib/types/index.d.ts"
+      ],
+      "@deepseek-ai/dsh-client-locale": [
+        "../github/deepseek-harness/packages/client/locale/lib/types/index.d.ts"
+      ],
+      "@deepseek-ai/dsh-client-locale/client": [
+        "../github/deepseek-harness/packages/client/locale/lib/types/client/index.d.ts"
+      ],
+      "@deepseek-ai/dsh-client-runtime/client": [
+        "../github/deepseek-harness/packages/client/runtime/lib/types/client/index.d.ts"
+      ],
+      "@deepseek-ai/dsh-client-ui-slots": [
+        "../github/deepseek-harness/packages/client/ui-slots/lib/types/index.d.ts"
+      ],
+      "@deepseek-ai/dsh-client-ui-conversation/client": [
+        "../github/deepseek-harness/packages/client/ui-conversation/lib/types/client/index.d.ts"
+      ],
+      "@deepseek-ai/dsh-client-ui-primitives": [
+        "../github/deepseek-harness/packages/client/ui-primitives/lib/types/index.d.ts"
+      ]
+    }
+  },
+  "include": ["src"]
+}
