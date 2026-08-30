@@ -1,8 +1,8 @@
 # dsh-copy-session-id
 
-为 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) Web 界面增加一个**复制当前会话 ID** 的按钮：在会话标题右侧的工具位（`conversation.session.header.utilities`）放一个复制图标，点击即把当前 session id（如 `session-922d24f7-…`）写入剪贴板，方便你在另一个会话里快速 recall 它。
+为 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) Web 界面增加**两个会话标题工具按钮**：在会话标题右侧的工具位（`conversation.session.header.utilities`）放一个**复制当前会话 ID** 图标（点击把当前 session id 写入剪贴板，方便你在另一个会话里快速 recall 它），紧挨着的**在 VSCode 打开**图标会请求宿主进程执行 `code` 命令、用 VSCode 打开当前会话的工作目录。
 
-A session-header utility for the DeepSeek Harness Web GUI: one button that copies the current session id to the clipboard, so you can quickly reference that session from another session.
+Two session-header utilities for the DeepSeek Harness Web GUI: one button copies the current session id to the clipboard for cross-session recall, and the one beside it asks the host to spawn `code` on the current session's working directory (opening it in VSCode).
 
 ---
 
@@ -53,13 +53,15 @@ pnpm run build   # 生成 lib/ 产物（host + client bundle + 类型）
 ## 功能 / Features
 
 - **一键复制当前会话 ID** — 会话头部工具位一个复制图标，点击复制当前 session id
+- **在 VSCode 打开工作目录** — 紧挨着的「在 VSCode 打开」图标，点击请求宿主执行 `code` 命令打开当前会话的工作目录
 - **成功反馈** — 复制成功后 tooltip 显示「已复制」；写入失败不误报
-- **零侵入 / 纯客户端** — 无 host 路由、无状态、无 RPC；host half 仅用于让包在 profile 中合法
+- **零侵入 / 纯客户端** — 复制按钮纯客户端；「在 VSCode 打开」仅新增一条宿主路由跑 `code`，无状态、无 RPC
 - **轻量依赖** — 仅依赖 baseline 的 react 与 ui-primitives
 
 - **One-click copy of the current session id** — a copy icon in the session-header utilities
+- **Open working directory in VSCode** — the icon beside it asks the host to spawn `code` on the session's working directory
 - **Success feedback** — a transient "copied" tooltip; a refused write never claims success
-- **Zero-intrusion / client-only** — no host routes, no state, no RPC; the host half only makes the package a valid profile bundle
+- **Zero-intrusion / client-first** — the copy button is client-only; "open in VSCode" adds one host route that spawns `code`, with no state or RPC
 - **Light dependencies** — only baseline react and ui-primitives
 
 ## 许可 / License
@@ -68,5 +70,7 @@ pnpm run build   # 生成 lib/ 产物（host + client bundle + 类型）
 
 ## 实现位置
 
-- 注册入口：`src/client/index.ts`（`conversation.session.header.utilities` slot）
-- 按钮组件：`src/client/CopySessionIdAction.tsx`
+- 注册入口：`src/client/index.ts`（`conversation.session.header.utilities` slot，两个按钮）
+- 复制按钮组件：`src/client/CopySessionIdAction.tsx`
+- 打开目录按钮组件：`src/client/OpenInCodeAction.tsx`
+- 宿主路由：`src/index.ts`（`POST /copy-session-id/open-in-code`，`spawn('code', [cwd])`）
