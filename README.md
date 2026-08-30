@@ -2,11 +2,9 @@
 
 为 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) Web 界面增加**两个会话标题工具按钮**：在会话标题右侧的工具位（`conversation.session.header.utilities`）放一个**复制当前会话 ID** 图标（点击把当前 session id 写入剪贴板，方便你在另一个会话里快速 recall 它），紧挨着的**在 VSCode 打开**图标会请求宿主进程执行 `code` 命令、用 VSCode 打开当前会话的工作目录。
 
-Two session-header utilities for the DeepSeek Harness Web GUI: one button copies the current session id to the clipboard for cross-session recall, and the one beside it asks the host to spawn `code` on the current session's working directory (opening it in VSCode).
-
 ---
 
-## 使用场景 / Use case
+## 使用场景
 
 跨会话交接时（例如在一个会话里排查问题 / 做完设计，想把它交给另一个会话用），用这个插件可以**秒拿当前会话的 id，并在目标会话里一键 recall**：
 
@@ -16,11 +14,9 @@ Two session-header utilities for the DeepSeek Harness Web GUI: one button copies
 
 > 也可以直接把整条 mention `@[标题](dsh-session:<id>)` 粘进输入框，效果等同 —— 只要能拿到 id，两种方式都能快速 recall。
 
-For cross-session handoff, copy the source session's id here, then in the target session type `@` and paste that id — the session-reference autocomplete matches it by id, and picking it injects the source session's read-only snapshot (`recall` context) into the current message.
-
 ---
 
-## 安装 / Install
+## 安装
 
 **优先：从 npm 安装（推荐）**
 
@@ -28,7 +24,7 @@ For cross-session handoff, copy the source session's id here, then in the target
 dsh plugin --profile web add @lim324/dsh-copy-session-id
 ```
 
-装完重启 `dsh web`。/ Restart `dsh web` afterwards.
+装完重启 `dsh web`。
 
 **GitHub 源码安装（需要先 build）**
 
@@ -39,18 +35,18 @@ pnpm install && pnpm run build    # 生成 lib/ 产物
 dsh plugin --profile web add link:/绝对路径/到/dsh-copy-session-id
 ```
 
-## 构建 / Build
+## 构建
 
 ```sh
 pnpm install
 pnpm run build   # 生成 lib/ 产物（host + client bundle + 类型）
 ```
 
-## 源码开发 / Development
+## 源码开发
 
 用 `link:` 方式安装后，源码改动需重新 `pnpm run build` 才会反映到 `lib/`。
 
-## 功能 / Features
+## 功能
 
 - **一键复制当前会话 ID** — 会话头部工具位一个复制图标，点击复制当前 session id
 - **在 VSCode 打开工作目录** — 紧挨着的「在 VSCode 打开」图标，点击请求宿主执行 `code` 命令打开当前会话的工作目录
@@ -58,13 +54,7 @@ pnpm run build   # 生成 lib/ 产物（host + client bundle + 类型）
 - **零侵入 / 纯客户端** — 复制按钮纯客户端；「在 VSCode 打开」仅新增一条宿主路由跑 `code`，无状态、无 RPC
 - **轻量依赖** — 仅依赖 baseline 的 react 与 ui-primitives
 
-- **One-click copy of the current session id** — a copy icon in the session-header utilities
-- **Open working directory in VSCode** — the icon beside it asks the host to spawn `code` on the session's working directory
-- **Success feedback** — a transient "copied" tooltip; a refused write never claims success
-- **Zero-intrusion / client-first** — the copy button is client-only; "open in VSCode" adds one host route that spawns `code`, with no state or RPC
-- **Light dependencies** — only baseline react and ui-primitives
-
-## 许可 / License
+## 许可
 
 [MIT](LICENSE) · 版权所有 © 2026 @lim324
 
