@@ -1,10 +1,12 @@
 /**
- * @lim324/dsh-copy-session-id — client half. Registers two session-header
+ * @lim324/dsh-copy-session-id — client half. Registers three session-header
  * utility controls in the same `conversation.session.header.utilities` seat:
- * one that copies the current session id to the clipboard, and one that opens
- * the current session's working directory in VSCode (via a host `code` spawn).
- * The surface is client-first; the only host coupling is the open-in-code POST,
- * everything else is clipboard + framework session reads.
+ * one that copies the current session id to the clipboard, one that opens the
+ * current session's working directory in VSCode (via a host `code` spawn), and
+ * one that opens the working directory's git origin in GitLab (via a host
+ * origin lookup). The surface is client-first; the only host coupling is the
+ * open-in-code POST and the git-remote POST, everything else is clipboard +
+ * framework session reads.
  * @module @lim324/dsh-copy-session-id/client
  */
 
@@ -16,6 +18,7 @@ import type {} from '@deepseek-ai/dsh-client-locale/client'
 import type {} from '@deepseek-ai/dsh-client-ui-slots'
 import { CopySessionIdAction } from './CopySessionIdAction.tsx'
 import { OpenInCodeAction } from './OpenInCodeAction.tsx'
+import { OpenGitlabAction } from './OpenGitlabAction.tsx'
 import { en, zh, type CopySessionIdKey, NS } from './locales.ts'
 
 declare module '@deepseek-ai/dsh-client-ui-slots' {
@@ -27,6 +30,7 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
 
 export type { CopySessionIdActionProps } from './CopySessionIdAction.tsx'
 export type { OpenInCodeActionProps } from './OpenInCodeAction.tsx'
+export type { OpenGitlabActionProps } from './OpenGitlabAction.tsx'
 
 /** Stable Cordis plugin name (client half). */
 export const name = 'dsh-copy-session-id'
@@ -59,5 +63,15 @@ export function apply(ctx: ClientContext): void {
       order: 20,
       locale: NS,
     }, OpenInCodeAction),
+  )
+
+  ctx.slots.inject(
+    'conversation.session.header.utilities',
+    () => ctx.slots.register({
+      name: 'conversation.session.header.utilities',
+      id: 'open-gitlab',
+      order: 30,
+      locale: NS,
+    }, OpenGitlabAction),
   )
 }
