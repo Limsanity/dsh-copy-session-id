@@ -5,9 +5,12 @@ export const NS = 'copySessionId'
 
 /** Simplified Chinese dictionary (the key-set source of truth). */
 export const zh = {
-  'copy': '复制会话 ID',
-  'copied': '已复制',
-  'copy.aria': '复制当前会话的 ID',
+  'copy.aria': '复制当前会话的 ID 或引用文案',
+  'copy.menu.title': '复制会话 ID / 引用文案',
+  'copy.menu.id': '复制会话 ID',
+  'copy.menu.mention': '复制引用文案',
+  'copied.id': '已复制会话 ID',
+  'copied.mention': '已复制引用文案',
   'openCode.open': '用 VSCode 打开当前目录',
   'openCode.opened': '已打开',
   'openCode.noCwd': '当前会话没有工作目录',
@@ -18,9 +21,12 @@ export const zh = {
 
 /** English dictionary, key-identical to the Chinese source of truth. */
 export const en: Record<CopySessionIdKey, string> = {
-  'copy': 'Copy session ID',
-  'copied': 'Copied',
-  'copy.aria': 'Copy the current session ID',
+  'copy.aria': 'Copy the current session ID or its recall mention',
+  'copy.menu.title': 'Copy session ID / recall mention',
+  'copy.menu.id': 'Copy session ID',
+  'copy.menu.mention': 'Copy mention',
+  'copied.id': 'Session ID copied',
+  'copied.mention': 'Mention copied',
   'openCode.open': 'Open working directory in VSCode',
   'openCode.opened': 'Opened',
   'openCode.noCwd': 'This session has no working directory',
