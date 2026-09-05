@@ -1,7 +1,7 @@
 {
   "name": "@lim324/dsh-copy-session-id",
   "description": "A Web client plugin for the DeepSeek Harness GUI: session-header utility buttons that copy the current session id to the clipboard and open the session working directory in VSCode.",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "publishConfig": {
     "access": "public"
   },
