@@ -1,4 +1,11 @@
 {
+  // Isolated copy for the DSH 0.1.5-rc.1 profile.
+  //
+  // The original relative `paths` block mapped @deepseek-ai/* at the sibling
+  // harness checkout (../deepseek-harness), which is pinned to the OLD core
+  // (rc.2) and no longer exports the packages this plugin needs. This copy
+  // resolves every dependency from its own node_modules instead — the shared
+  // installation fallback plus the few locally installed type packages.
   "compilerOptions": {
     "target": "es2024",
     "module": "esnext",
@@ -15,32 +22,8 @@
     "allowImportingTsExtensions": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "paths": {
-      "@deepseek-ai/cordis": [
-        "../deepseek-harness/vendor/cordis/lib/types/index.d.ts"
-      ],
-      "@deepseek-ai/dsh-client-locale": [
-        "../deepseek-harness/packages/client/locale/lib/types/index.d.ts"
-      ],
-      "@deepseek-ai/dsh-client-locale/client": [
-        "../deepseek-harness/packages/client/locale/lib/types/client/index.d.ts"
-      ],
-      "@deepseek-ai/dsh-client-runtime/client": [
-        "../deepseek-harness/packages/client/runtime/lib/types/client/index.d.ts"
-      ],
-      "@deepseek-ai/dsh-client-ui-slots": [
-        "../deepseek-harness/packages/client/ui-slots/lib/types/index.d.ts"
-      ],
-      "@deepseek-ai/dsh-client-ui-conversation/client": [
-        "../deepseek-harness/packages/client/ui-conversation/lib/types/client/index.d.ts"
-      ],
-      "@deepseek-ai/dsh-client-ui-primitives": [
-        "../deepseek-harness/packages/client/ui-primitives/lib/types/index.d.ts"
-      ],
-      "@deepseek-ai/dsh-host-webserver": [
-        "../deepseek-harness/packages/host/webserver/lib/types/index.d.ts"
-      ]
-    }
+    // 关键：从符号链接位置解析依赖，而不是解析到真实路径（CLI 安装树里没有客户端包）
+    "preserveSymlinks": true
   },
   "include": ["src"]
 }

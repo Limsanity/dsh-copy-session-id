@@ -12,6 +12,9 @@ import {
 // Type-only: pulls the ui-conversation SlotMap merge (the header utilities seat
 // and its empty owner share).
 import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
+// Type-only: session-scoped standard props (sessionId / useSessions) — declared by
+// ui-session at 0.1.5-rc.1 (it used to ride the removed client-runtime package).
+import type {} from '@deepseek-ai/dsh-client-ui-session/client'
 import { NS } from './locales.ts'
 
 /** Full utility props: runtime share (standard session kit) & the locale seat. */
