@@ -1,23 +1,25 @@
 /**
- * @lim324/dsh-copy-session-id — client half. Registers three session-header
+ * @lim324/dsh-copy-session-id — client half. Registers two session-header
  * utility controls in the same `conversation.session.header.utilities` seat:
- * one that copies the current session id to the clipboard, one that opens the
- * current session's working directory in VSCode (via a host `code` spawn), and
- * one that opens the working directory's git origin in GitLab (via a host
- * origin lookup). The surface is client-first; the only host coupling is the
- * open-in-code POST and the git-remote POST, everything else is clipboard +
- * framework session reads.
+ * one that copies the current session id to the clipboard, and one that opens
+ * the working directory's git origin in GitLab (via a host origin lookup).
+ *
+ * The former "open in VSCode" control was removed: the harness now ships its
+ * own open-in-app affordance (`@deepseek-ai/dsh-client-ui-open-in-app` plus the
+ * workspace route), so this plugin no longer spawns `code` itself.
  * @module @lim324/dsh-copy-session-id/client
  */
 
-import type { ClientContext } from '@deepseek-ai/dsh-client-runtime/client'
+import type { Context as ClientContext } from '@deepseek-ai/cordis'
 // Type-only: pulls the ui-conversation SlotMap merge (the header utilities seat).
 import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
 // Type-only: pulls the locale plugin's Context merge (ctx.locale).
 import type {} from '@deepseek-ai/dsh-client-locale/client'
+// `ctx.slots` is declared on the client Context by ui-renderer at 0.1.5-rc.1
+// (it used to live in ui-slots); this type-only import pulls that merge in.
+import type {} from '@deepseek-ai/dsh-client-ui-renderer/client'
 import type {} from '@deepseek-ai/dsh-client-ui-slots'
 import { CopySessionIdAction } from './CopySessionIdAction.tsx'
-import { OpenInCodeAction } from './OpenInCodeAction.tsx'
 import { OpenGitlabAction } from './OpenGitlabAction.tsx'
 import { en, zh, type CopySessionIdKey, NS } from './locales.ts'
 
@@ -29,7 +31,6 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
 }
 
 export type { CopySessionIdActionProps } from './CopySessionIdAction.tsx'
-export type { OpenInCodeActionProps } from './OpenInCodeAction.tsx'
 export type { OpenGitlabActionProps } from './OpenGitlabAction.tsx'
 
 /** Stable Cordis plugin name (client half). */
@@ -53,16 +54,6 @@ export function apply(ctx: ClientContext): void {
       order: 10,
       locale: NS,
     }, CopySessionIdAction),
-  )
-
-  ctx.slots.inject(
-    'conversation.session.header.utilities',
-    () => ctx.slots.register({
-      name: 'conversation.session.header.utilities',
-      id: 'open-in-code',
-      order: 20,
-      locale: NS,
-    }, OpenInCodeAction),
   )
 
   ctx.slots.inject(
