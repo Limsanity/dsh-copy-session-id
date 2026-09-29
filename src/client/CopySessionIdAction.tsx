@@ -2,9 +2,9 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import type { PropsLocale, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import {
-  IconCheckOutline16,
-  IconCopyOutline16,
-  IconLinkOutline16,
+  IconCheckOutlineRegular,
+  IconCopyOutlineRegular,
+  IconLinkOutlineRegular,
   Menu,
   Tooltip,
   writeClipboard,
@@ -136,14 +136,14 @@ export function CopySessionIdAction({ sessionId, useSessions, t }: CopySessionId
             onClick={() => { if (copied === null) setOpen((value) => !value) }}
           >
             {copied !== null
-              ? <IconCheckOutline16 size={16} />
-              : <IconCopyOutline16 size={16} />}
+              ? <IconCheckOutlineRegular size={16} />
+              : <IconCopyOutlineRegular size={16} />}
           </button>
         </Tooltip>
       }
       items={[
-        { id: 'id', label: t('copy.menu.id'), icon: <IconCopyOutline16 size={16} /> },
-        { id: 'mention', label: t('copy.menu.mention'), icon: <IconLinkOutline16 size={16} /> },
+        { id: 'id', label: t('copy.menu.id'), icon: <IconCopyOutlineRegular size={16} /> },
+        { id: 'mention', label: t('copy.menu.mention'), icon: <IconLinkOutlineRegular size={16} /> },
       ]}
       onSelect={copy}
       onClose={() => { setOpen(false) }}
